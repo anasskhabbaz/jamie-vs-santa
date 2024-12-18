@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('background_image.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: white; /* White text color */
+  background-color: black; /* Black background */
+  padding: 10px 20px; /* Padding around the text */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.flip-card-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+  border: 5px solid black; /* Thick black border around the card */
+  cursor: pointer;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card.flip .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+.flip-card-back {
+  background-color: white; /* White background for the back */
+  color: black; /* Black text color */
+  font-weight: bold; /* Bold text */
+  transform: rotateY(180deg);
+}
+</style>
+</head>
+<body>
+
+<h1>🎄🎄🎄 HO HO HO! Jamie Vs Santa 🎄🎄🎄</h1>
+
+<div class="flip-card-container" id="cardContainer">
+  <!-- Cards will be generated here by JavaScript -->
+</div>
+
+<script>
+// Define card data
+const cardData = [
+  // 3 prizes of 300 MAD
+  {amount: "300 MAD", question: null},
+  {amount: "300 MAD", question: null},
+  {amount: "300 MAD", question: null},
+
+  // 10 prizes of 200 MAD
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+  {amount: "200 MAD", question: null},
+
+  // 10 prizes of 150 MAD
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+  {amount: "150 MAD", question: null},
+
+  // 7 prizes of 100 MAD
+  {amount: "100 MAD", question: null},
+  {amount: "100 MAD", question: null},
+  {amount: "100 MAD", question: null},
+  {amount: "100 MAD", question: null},
+  {amount: "100 MAD", question: null},
+  {amount: "100 MAD", question: null},
+  {amount: "100 MAD", question: null},
+
+  // 5 prizes of 50 MAD
+  {amount: "50 MAD", question: null},
+  {amount: "50 MAD", question: null},
+  {amount: "50 MAD", question: null},
+  {amount: "50 MAD", question: null},
+  {amount: "50 MAD", question: null}
+];
+
+// Function to shuffle an array (Fisher-Yates shuffle algorithm)
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Function to generate cards
+function generateCards() {
+  const cardContainer = document.getElementById('cardContainer');
+  const shuffledData = shuffle(cardData); // Shuffle the card data
+
+  shuffledData.forEach((data, i) => {
+    const card = document.createElement('div');
+    card.classList.add('flip-card');
+    card.setAttribute('onclick', 'flipCard(this)');
+    
+    const cardInner = document.createElement('div');
+    cardInner.classList.add('flip-card-inner');
+    
+    const cardFront = document.createElement('div');
+    cardFront.classList.add('flip-card-front');
+    const img = document.createElement('img');
+    img.src = `cards/card_${i + 1}.png`; // Correct path to the card images
+    img.style.width = '300px';
+    img.style.height = '300px';
+    cardFront.appendChild(img);
+    
+    const cardBack = document.createElement('div');
+    cardBack.classList.add('flip-card-back');
+    const h1 = document.createElement('h1');
+    h1.textContent = data.amount;
+    cardBack.appendChild(h1);
+    
+    if (data.question) {
+      const p = document.createElement('p');
+      p.textContent = data.question;
+      cardBack.appendChild(p);
+    }
+    
+    cardInner.appendChild(cardFront);
+    cardInner.appendChild(cardBack);
+    card.appendChild(cardInner);
+    cardContainer.appendChild(card);
+  });
+}
+
+// Flip card function
+function flipCard(card) {
+  card.classList.toggle("flip");
+}
+
+generateCards();
+</script>
+
+</body>
+</html>
